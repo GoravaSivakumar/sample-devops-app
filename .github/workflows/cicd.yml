@@ -58,9 +58,18 @@ jobs:
         docker tag $IMAGE_NAME:${{ github.sha }} ${{ secrets.DOCKER_USER }}/$IMAGE_NAME:${{ github.sha }}
         docker push ${{ secrets.DOCKER_USER }}/$IMAGE_NAME:${{ github.sha }}
 
-    - name: Update K8s Repo
+    - name: Update Kubernetes Repo
       run: |
-        git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/GoravaSivakumar/sample-devops-k8s.git
+        git clone https://$GH_PAT@github.com/GoravaSivakumar/sample-devops-k8s.git
         cd sample-devops-k8s
-        chmod +x update-image.sh
-        ./update-image.sh ${{ github.sha }}
+
+        sed -i "s|image:.*|image: ${{ secrets.DOCKER_USER }}/devops-flask-app:${{ github.sha }}|g" deployment.yaml
+
+        git config user.name "github-actions"
+        git config user.email "github-actions@github.com"
+
+        git add deployment.yaml
+        git commit -m "Update image tag ${{ github.sha }}"
+        git push
+      env:
+        GH_PAT: ${{ secrets.GH_PAT }}
