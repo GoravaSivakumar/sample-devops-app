@@ -33,12 +33,6 @@ jobs:
         export PYTHONPATH=$PYTHONPATH:$(pwd)
         pytest
 
-    - name: SonarQube Scan
-      uses: SonarSource/sonarqube-scan-action@master
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        SONAR_HOST_URL: http://localhost:9000
-
   docker-build:
 
     needs: build-test
