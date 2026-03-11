@@ -60,7 +60,7 @@ jobs:
 
     - name: Update K8s Repo
       run: |
-        git clone https://github.com/GoravaSivakumar/sample-devops-k8s.git
+        git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/GoravaSivakumar/sample-devops-k8s.git
         cd sample-devops-k8s
         chmod +x update-image.sh
         ./update-image.sh ${{ github.sha }}
