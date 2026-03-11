@@ -55,8 +55,8 @@ jobs:
 
     - name: Push Image
       run: |
-        docker tag $IMAGE_NAME:${{ github.sha }} yourdockerhub/$IMAGE_NAME:${{ github.sha }}
-        docker push yourdockerhub/$IMAGE_NAME:${{ github.sha }}
+        docker tag $IMAGE_NAME:${{ github.sha }} ${{ secrets.DOCKER_USER }}/$IMAGE_NAME:${{ github.sha }}
+        docker push ${{ secrets.DOCKER_USER }}/$IMAGE_NAME:${{ github.sha }}
 
     - name: Update K8s Repo
       run: |
